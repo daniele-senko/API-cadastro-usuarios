@@ -1,5 +1,5 @@
-import express from "express";
-import cors from "cors";
+import express from 'express';
+import cors from 'cors';
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -8,34 +8,34 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const port = process.env.PORT || 3000;
-
 app.post("/usuarios", async (req, res) => {
   await prisma.user.create({
     data: {
       email: req.body.email,
       name: req.body.name,
       age: req.body.age,
-    },
+    },  
   });
 
   res.status(201).json(req.body);
 });
 
 app.get("/usuarios", async (req, res) => {
-  let users = [];
 
-  if (req.query) {
-    users = await prisma.user.findMany({
-      where: {
-        name: req.query.name,
-        email: req.query.email,
-        age: req.query.age,
-      },
-    });
-  } else {
-    const users = await prisma.user.findMany();
-  }
+    let users = [];
+ 
+    if(req.query) {
+        users = await prisma.user.findMany({ 
+            where: {
+                name: req.query.name,
+                email: req.query.email,
+                age: req.query.age
+            }
+        })
+    } else {
+        const users = await prisma.user.findMany();
+    }
+
 
   res.status(200).json(users);
 });
@@ -65,4 +65,4 @@ app.delete("/usuarios/:id", async (req, res) => {
   res.status(200).json({ message: "Usuário deletado com sucesso!" });
 });
 
-app.listen(3000, () => console.log("Server ready on port 3000."));
+app.listen(3000);
