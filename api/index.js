@@ -5,7 +5,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const app = express();
-const PORT = 4000;
+const PORT = 4000
+
+app.listen(PORT, () => {
+  console.log(`API listening on PORT ${PORT} `)
+})
 
 app.use(express.json());
 app.use(cors());
@@ -67,10 +71,4 @@ app.delete("/usuarios/:id", async (req, res) => {
   res.status(200).json({ message: "Usuário deletado com sucesso!" });
 });
 
-app.listen(PORT,(req,res) => {
-    console.log(`Server is running on port ${PORT}`);
-})
-
-app.get("/", (req, res) => {
-  res.send("api funcionando");
-});
+module.exports = app
