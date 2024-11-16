@@ -8,6 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const port = process.env.PORT || 3000;
+
 app.post("/usuarios", async (req, res) => {
   await prisma.user.create({
     data: {
@@ -65,4 +67,8 @@ app.delete("/usuarios/:id", async (req, res) => {
   res.status(200).json({ message: "Usuário deletado com sucesso!" });
 });
 
-app.listen(3000);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+export default app;
